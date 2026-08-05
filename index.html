@@ -1,69 +1,238 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloud Database Sign Up</title>
-    <style>
-        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f4f4f9; margin: 0; }
-        .form-container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 300px; }
-        h2 { text-align: center; color: #333; margin-bottom: 20px; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-size: 14px; }
-        button { width: 100%; padding: 12px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold; margin-top: 10px; }
-        button:hover { background-color: #218838; }
-        #message { text-align: center; margin-top: 15px; font-weight: bold; font-size: 14px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎂 Happy Birthday Shrushti</title>
+  <!-- Confetti Library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    body { background: #050510; min-height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; position: relative; }
+    
+    /* Liquid Neon Background - feminine glow */
+    .liquid-bg { position: absolute; width: 100%; height: 100%; top: 0; left: 0; background: radial-gradient(circle at 30% 40%, #1a0a2e, #050510 80%); z-index: 1; }
+    .blob { position: absolute; background: linear-gradient(45deg, #f472b6, #ec4899, #a855f7); border-radius: 50%; filter: blur(60px); opacity: 0.4; animation: float-liquid 14s infinite alternate ease-in-out; }
+    .blob:nth-child(1) { width: 400px; height: 400px; top: -15%; left: -10%; animation-duration: 16s; }
+    .blob:nth-child(2) { width: 500px; height: 500px; bottom: -15%; right: -10%; animation-duration: 18s; background: linear-gradient(45deg, #f472b6, #ec4899, #facc15); }
+    .blob:nth-child(3) { width: 300px; height: 300px; top: 30%; left: 20%; animation-duration: 12s; background: linear-gradient(45deg, #f9a8d4, #f472b6); }
+
+    @keyframes float-liquid {
+      0% { transform: translateY(0) scale(1) rotate(0deg); border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%; }
+      50% { transform: translateY(50px) scale(1.2) rotate(140deg); border-radius: 70% 30% 52% 48% / 60% 40% 60% 40%; }
+      100% { transform: translateY(-40px) scale(0.9) rotate(280deg); border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%; }
+    }
+
+    /* Canvas for falling colorful balls (fluid) */
+    #fluidCanvas { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 2; pointer-events: none; }
+    
+    /* Dark glass card */
+    .quiz-container { position: relative; z-index: 3; background: rgba(10, 12, 30, 0.6); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 32px; padding: 38px 28px; width: 92%; max-width: 420px; text-align: center; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.05); transition: all 0.3s ease; }
+    
+    .gift-box { display: block; }
+    .gift-emoji { font-size: 5.5rem; cursor: pointer; display: inline-block; animation: bounceGift 1.4s infinite alternate ease-in-out; filter: drop-shadow(0 0 25px rgba(255, 200, 0, 0.3)); }
+    @keyframes bounceGift { 0% { transform: scale(1) rotate(-3deg); } 100% { transform: scale(1.08) translateY(-10px) rotate(3deg); filter: drop-shadow(0 0 35px rgba(255, 200, 0, 0.6)); } }
+
+    .hint-text { color: #fce7f3; margin-top: 18px; font-weight: 500; letter-spacing: 0.5px; opacity: 0.8; font-size: 1rem; }
+
+    /* Surprise area - female friend theme */
+    .surprise-box { display: none; }
+    .cake-img { font-size: 3.4rem; margin-bottom: 6px; display: block; filter: drop-shadow(0 0 20px rgba(255, 180, 50, 0.5)); }
+    .sub-heading { color: #f9a8d4; font-size: 1.1rem; font-weight: 500; letter-spacing: 2px; opacity: 0.9; margin-bottom: 4px; }
+    .main-heading { font-size: 2.2rem; font-weight: 800; letter-spacing: 1px; line-height: 1.2; margin-bottom: 18px; }
+    .name-shrushti { color: #f9a8d4; text-shadow: 0 0 20px rgba(249, 168, 212, 0.3); }
+    .name-bro { color: #f472b6; text-shadow: 0 0 20px rgba(244, 114, 182, 0.3); }
+    
+    .shayari-box { margin-bottom: 22px; padding: 0 4px; }
+    .shayari-text { color: #fce7f3; font-size: 1rem; font-weight: 400; line-height: 1.8; text-align: center; background: rgba(0,0,0,0.15); padding: 14px 12px; border-radius: 24px; backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.03); }
+    .from-tag { color: #f472b6; font-size: 1.2rem; font-weight: 700; margin-bottom: 22px; text-shadow: 0 0 15px rgba(244, 114, 182, 0.2); letter-spacing: 1px; }
+    
+    .splash-btn { background: linear-gradient(145deg, #ec4899, #db2777); color: white; border: none; padding: 14px 32px; font-size: 1rem; font-weight: 700; border-radius: 40px; cursor: pointer; box-shadow: 0 8px 25px rgba(236, 72, 153, 0.4); display: inline-flex; align-items: center; gap: 8px; transition: all 0.15s; }
+    .splash-btn:active { transform: scale(0.94); }
+    
+    .screenshot-footer { margin-top: 30px; font-size: 0.7rem; color: #f9a8d4; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; border-top: 1px dashed rgba(255, 255, 255, 0.08); padding-top: 18px; opacity: 0.7; }
+
+    .age-badge { display: inline-block; background: rgba(244, 114, 182, 0.15); padding: 4px 16px; border-radius: 30px; font-size: 0.9rem; color: #f9a8d4; border: 1px solid rgba(244, 114, 182, 0.2); margin-bottom: 12px; backdrop-filter: blur(4px); }
+  </style>
 </head>
 <body>
+  <!-- Liquid Blobs Background -->
+  <div class="liquid-bg">
+    <div class="blob"></div>
+    <div class="blob"></div>
+    <div class="blob"></div>
+  </div>
 
-<div class="form-container">
-    <h2>Sign Up Form</h2>
-    <form id="userForm">
-        <input type="text" id="nameInput" placeholder="Enter Your Name" required>
-        <input type="email" id="emailInput" placeholder="Enter Your Email" required>
-        <button type="submit">Submit to Cloud</button>
-    </form>
-    <div id="message"></div>
-</div>
+  <!-- Canvas for falling balls -->
+  <canvas id="fluidCanvas"></canvas>
+  
+  <div class="quiz-container" id="cardContainer">
+    <!-- Gift Box (shown directly, no question) -->
+    <div id="giftBox">
+      <div class="gift-emoji" onclick="openSurprise()">🎁</div>
+      <div class="hint-text">✨ Tap the gift to reveal your surprise ✨</div>
+    </div>
 
-<script>
-    document.getElementById('userForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const name = document.getElementById('nameInput').value;
-        const email = document.getElementById('emailInput').value;
-        const messageDiv = document.getElementById('message');
-        
-        messageDiv.style.color = "blue";
-        messageDiv.innerText = "Connecting to cloud server...";
+    <!-- Surprise Area (Birthday) - Shrushti (female friend) -->
+    <div id="surpriseBox" class="surprise-box">
+      <span class="cake-img">🎂</span>
+      <div class="sub-heading">🎈 Happy 16th Birthday 🎈</div>
+      <div class="main-heading">
+        <span class="name-shrushti">SHRUSHTI</span><br>
+        <span class="name-bro">💖BEST FRIEND💖</span>
+      </div>
+      <!-- Auto age display -->
+      <div class="age-badge" id="ageDisplay">🎂 16 years old</div>
+      <div class="shayari-box">
+        <p class="shayari-text">
+          🌸 Kismat walon ko milti hai aisi dosti,<br>
+          Jahan humsafar aur humnawa dono milte hain,<br>
+          Hum toh khushnaseeb hain tere jaise dost ke saath,<br>
+          Jo har gham mein saath deti aur har khushi mein shaamil hoti hai.<br><br>
+          Janamdin ki lakhon mubarakbaad ho Shrushti,<br>
+          Khush raho, muskuraate raho, aur aise hi chamakti raho! ✨<br>
+          <span style="display:inline-block; margin-top:8px; font-size:0.9rem; color:#f9a8d4;">(5 August 2010 — born to shine ✨)</span>
+        </p>
+      </div>
+      <div class="from-tag">From: ..... </div>
+      <button class="splash-btn" onclick="fireMoreConfetti()">💫 Splash More Fluid 💫</button>
+      <div class="screenshot-footer">
+        🎀 if surprise opens, send a screenshot 🎀
+      </div>
+    </div>
+  </div>
 
-        try {
-            // Render ka 100% active live endpoint
-            const response = await fetch('https://onrender.com', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                // Yahan variable name 'username' kar diya hai jo server ko chahiye
-                body: JSON.stringify({ username: name, email: email })
-            });
+  <script>
+    // ----- AGE CALCULATION (5 August 2010) -----
+    function calculateAge(birthDate) {
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      return age;
+    }
 
-            if (response.ok) {
-                messageDiv.style.color = "green";
-                messageDiv.innerText = "Success! Data saved to Render Cloud 🎉";
-                document.getElementById('userForm').reset();
-            } else {
-                const errorText = await response.text();
-                messageDiv.style.color = "red";
-                messageDiv.innerText = "Server Error: " + errorText;
-            }
-        } catch (error) {
-            messageDiv.style.color = "red";
-            messageDiv.innerText = "Network Error: Server is waking up, please wait 30 seconds.";
-            console.error(error);
+    const birthDate = new Date(2010, 7, 5); // month is 0-indexed, so 7 = August
+    const age = calculateAge(birthDate);
+    document.getElementById('ageDisplay').innerHTML = `🎂 ${age} years old`;
+
+    // ----- Animation control -----
+    let animationActive = false;
+    const cardContainer = document.getElementById('cardContainer');
+    const giftBox = document.getElementById('giftBox');
+    const surpriseBox = document.getElementById('surpriseBox');
+
+    // ------ Canvas setup for falling balls ------
+    const canvas = document.getElementById('fluidCanvas');
+    const ctx = canvas.getContext('2d');
+    let balls = [];
+    const colors = ['#f472b6', '#f9a8d4', '#ec4899', '#facc15', '#4ade80', '#f472b6', '#22d3ee', '#c084fc', '#f9a8d4'];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Ball {
+      constructor(x, y, isSplash = false) {
+        this.x = x || Math.random() * canvas.width;
+        this.y = y || (isSplash ? Math.random() * (canvas.height * 0.2) : -30);
+        this.radius = Math.random() * 9 + 5;
+        this.color = colors[Math.floor(Math.random() * colors.length)];
+        this.speedY = Math.random() * 1.8 + 0.8;
+        this.speedX = (Math.random() - 0.5) * 0.6;
+        this.opacity = Math.random() * 0.5 + 0.3;
+      }
+      update() {
+        this.y += this.speedY;
+        this.x += this.speedX;
+        if (this.y - this.radius > canvas.height) {
+          this.y = -20;
+          this.x = Math.random() * canvas.width;
         }
-    });
-</script>
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.globalAlpha = this.opacity;
+        ctx.shadowBlur = 18;
+        ctx.shadowColor = this.color;
+        ctx.fill();
+      }
+    }
 
+    function startBallAnimation() {
+      if (animationActive) return;
+      animationActive = true;
+      for (let i = 0; i < 40; i++) {
+        balls.push(new Ball(null, Math.random() * canvas.height));
+      }
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.shadowBlur = 0;
+        balls.forEach(ball => {
+          ball.update();
+          ball.draw();
+        });
+        requestAnimationFrame(animate);
+      }
+      animate();
+    }
+
+    // ----- Gift -> Surprise -----
+    function openSurprise() {
+      giftBox.style.display = 'none';
+      surpriseBox.style.display = 'block';
+      cardContainer.style.borderColor = '#f472b6';
+      cardContainer.style.boxShadow = '0 25px 60px rgba(244, 114, 182, 0.3)';
+      
+      startBallAnimation();
+      fireMoreConfetti();
+    }
+
+    // ----- Confetti burst (with canvas-confetti) -----
+    function fireMoreConfetti() {
+      // extra falling balls
+      if (animationActive) {
+        for (let i = 0; i < 30; i++) {
+          let extra = new Ball(Math.random() * canvas.width, -10, true);
+          extra.speedY = Math.random() * 3.5 + 2;
+          balls.push(extra);
+        }
+      }
+      // confetti library
+      var end = Date.now() + 1800;
+      (function frame() {
+        confetti({ particleCount: 5, angle: 60, spread: 70, origin: { x: 0, y: 0.9 }, colors: ['#f472b6', '#f9a8d4', '#facc15', '#ec4899'] });
+        confetti({ particleCount: 5, angle: 120, spread: 70, origin: { x: 1, y: 0.9 }, colors: ['#f472b6', '#f9a8d4', '#facc15', '#4ade80'] });
+        if (Date.now() < end) { requestAnimationFrame(frame); }
+      }());
+    }
+
+    // Preload some balls for background (subtle)
+    (function initBackgroundBalls() {
+      if (!animationActive) {
+        for (let i = 0; i < 20; i++) {
+          balls.push(new Ball(null, Math.random() * canvas.height));
+        }
+        function bgAnimate() {
+          if (animationActive) return;
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.shadowBlur = 0;
+          balls.forEach(ball => {
+            ball.update();
+            ball.draw();
+          });
+          requestAnimationFrame(bgAnimate);
+        }
+        bgAnimate();
+      }
+    })();
+  </script>
 </body>
 </html>
