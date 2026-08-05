@@ -2,17 +2,71 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>🎂 Happy Birthday Shrushti</title>
   <!-- Confetti Library -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
-    body { background: #050510; min-height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; position: relative; }
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
     
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: #050510;
+      touch-action: none;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    body { 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      position: relative; 
+    }
+    
+    /* Prevent zoom on input focus (none used) */
+    input, textarea, button {
+      touch-action: manipulation;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
     /* Liquid Neon Background - feminine glow */
-    .liquid-bg { position: absolute; width: 100%; height: 100%; top: 0; left: 0; background: radial-gradient(circle at 30% 40%, #1a0a2e, #050510 80%); z-index: 1; }
-    .blob { position: absolute; background: linear-gradient(45deg, #f472b6, #ec4899, #a855f7); border-radius: 50%; filter: blur(60px); opacity: 0.4; animation: float-liquid 14s infinite alternate ease-in-out; }
+    .liquid-bg { 
+      position: fixed; 
+      width: 100%; 
+      height: 100%; 
+      top: 0; 
+      left: 0; 
+      background: radial-gradient(circle at 30% 40%, #1a0a2e, #050510 80%); 
+      z-index: 1; 
+      pointer-events: none;
+    }
+    
+    .blob { 
+      position: absolute; 
+      background: linear-gradient(45deg, #f472b6, #ec4899, #a855f7); 
+      border-radius: 50%; 
+      filter: blur(60px); 
+      opacity: 0.4; 
+      animation: float-liquid 14s infinite alternate ease-in-out; 
+    }
     .blob:nth-child(1) { width: 400px; height: 400px; top: -15%; left: -10%; animation-duration: 16s; }
     .blob:nth-child(2) { width: 500px; height: 500px; bottom: -15%; right: -10%; animation-duration: 18s; background: linear-gradient(45deg, #f472b6, #ec4899, #facc15); }
     .blob:nth-child(3) { width: 300px; height: 300px; top: 30%; left: 20%; animation-duration: 12s; background: linear-gradient(45deg, #f9a8d4, #f472b6); }
@@ -24,35 +78,161 @@
     }
 
     /* Canvas for falling colorful balls (fluid) */
-    #fluidCanvas { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 2; pointer-events: none; }
+    #fluidCanvas { 
+      position: fixed; 
+      width: 100%; 
+      height: 100%; 
+      top: 0; 
+      left: 0; 
+      z-index: 2; 
+      pointer-events: none; 
+      touch-action: none;
+    }
     
-    /* Dark glass card */
-    .quiz-container { position: relative; z-index: 3; background: rgba(10, 12, 30, 0.6); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 32px; padding: 38px 28px; width: 92%; max-width: 420px; text-align: center; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.05); transition: all 0.3s ease; }
+    /* Dark glass card - responsive */
+    .quiz-container { 
+      position: relative; 
+      z-index: 3; 
+      background: rgba(10, 12, 30, 0.6); 
+      backdrop-filter: blur(18px); 
+      -webkit-backdrop-filter: blur(18px); 
+      border: 1px solid rgba(255, 255, 255, 0.08); 
+      border-radius: 32px; 
+      padding: clamp(24px, 5vw, 38px) clamp(16px, 4vw, 28px); 
+      width: min(92%, 420px); 
+      max-width: 420px;
+      text-align: center; 
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.05); 
+      transition: all 0.3s ease;
+      margin: auto;
+      touch-action: pan-y;
+      max-height: 98vh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .quiz-container::-webkit-scrollbar {
+      display: none;
+    }
     
     .gift-box { display: block; }
-    .gift-emoji { font-size: 5.5rem; cursor: pointer; display: inline-block; animation: bounceGift 1.4s infinite alternate ease-in-out; filter: drop-shadow(0 0 25px rgba(255, 200, 0, 0.3)); }
-    @keyframes bounceGift { 0% { transform: scale(1) rotate(-3deg); } 100% { transform: scale(1.08) translateY(-10px) rotate(3deg); filter: drop-shadow(0 0 35px rgba(255, 200, 0, 0.6)); } }
+    .gift-emoji { 
+      font-size: clamp(4rem, 12vw, 5.5rem); 
+      cursor: pointer; 
+      display: inline-block; 
+      animation: bounceGift 1.4s infinite alternate ease-in-out; 
+      filter: drop-shadow(0 0 25px rgba(255, 200, 0, 0.3));
+      touch-action: manipulation;
+    }
+    
+    @keyframes bounceGift { 
+      0% { transform: scale(1) rotate(-3deg); } 
+      100% { transform: scale(1.08) translateY(-10px) rotate(3deg); filter: drop-shadow(0 0 35px rgba(255, 200, 0, 0.6)); } 
+    }
 
-    .hint-text { color: #fce7f3; margin-top: 18px; font-weight: 500; letter-spacing: 0.5px; opacity: 0.8; font-size: 1rem; }
+    .hint-text { 
+      color: #fce7f3; 
+      margin-top: clamp(14px, 3vh, 18px); 
+      font-weight: 500; 
+      letter-spacing: 0.5px; 
+      opacity: 0.8; 
+      font-size: clamp(0.85rem, 2.5vw, 1rem); 
+    }
 
     /* Surprise area - female friend theme */
     .surprise-box { display: none; }
-    .cake-img { font-size: 3.4rem; margin-bottom: 6px; display: block; filter: drop-shadow(0 0 20px rgba(255, 180, 50, 0.5)); }
-    .sub-heading { color: #f9a8d4; font-size: 1.1rem; font-weight: 500; letter-spacing: 2px; opacity: 0.9; margin-bottom: 4px; }
-    .main-heading { font-size: 2.2rem; font-weight: 800; letter-spacing: 1px; line-height: 1.2; margin-bottom: 18px; }
+    .cake-img { 
+      font-size: clamp(2.8rem, 8vw, 3.4rem); 
+      margin-bottom: 6px; 
+      display: block; 
+      filter: drop-shadow(0 0 20px rgba(255, 180, 50, 0.5)); 
+    }
+    .sub-heading { 
+      color: #f9a8d4; 
+      font-size: clamp(0.95rem, 2.8vw, 1.1rem); 
+      font-weight: 500; 
+      letter-spacing: 2px; 
+      opacity: 0.9; 
+      margin-bottom: 4px; 
+    }
+    .main-heading { 
+      font-size: clamp(1.6rem, 5.5vw, 2.2rem); 
+      font-weight: 800; 
+      letter-spacing: 1px; 
+      line-height: 1.2; 
+      margin-bottom: clamp(12px, 2vh, 18px); 
+    }
     .name-shrushti { color: #f9a8d4; text-shadow: 0 0 20px rgba(249, 168, 212, 0.3); }
     .name-bro { color: #f472b6; text-shadow: 0 0 20px rgba(244, 114, 182, 0.3); }
     
-    .shayari-box { margin-bottom: 22px; padding: 0 4px; }
-    .shayari-text { color: #fce7f3; font-size: 1rem; font-weight: 400; line-height: 1.8; text-align: center; background: rgba(0,0,0,0.15); padding: 14px 12px; border-radius: 24px; backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.03); }
-    .from-tag { color: #f472b6; font-size: 1.2rem; font-weight: 700; margin-bottom: 22px; text-shadow: 0 0 15px rgba(244, 114, 182, 0.2); letter-spacing: 1px; }
+    .shayari-box { margin-bottom: clamp(16px, 3vh, 22px); padding: 0 4px; }
+    .shayari-text { 
+      color: #fce7f3; 
+      font-size: clamp(0.85rem, 2.5vw, 1rem); 
+      font-weight: 400; 
+      line-height: 1.8; 
+      text-align: center; 
+      background: rgba(0,0,0,0.15); 
+      padding: clamp(12px, 2vh, 14px) clamp(10px, 2vw, 12px); 
+      border-radius: 24px; 
+      backdrop-filter: blur(4px); 
+      border: 1px solid rgba(255,255,255,0.03); 
+    }
+    .from-tag { 
+      color: #f472b6; 
+      font-size: clamp(1rem, 3vw, 1.2rem); 
+      font-weight: 700; 
+      margin-bottom: clamp(16px, 3vh, 22px); 
+      text-shadow: 0 0 15px rgba(244, 114, 182, 0.2); 
+      letter-spacing: 1px; 
+    }
     
-    .splash-btn { background: linear-gradient(145deg, #ec4899, #db2777); color: white; border: none; padding: 14px 32px; font-size: 1rem; font-weight: 700; border-radius: 40px; cursor: pointer; box-shadow: 0 8px 25px rgba(236, 72, 153, 0.4); display: inline-flex; align-items: center; gap: 8px; transition: all 0.15s; }
+    .splash-btn { 
+      background: linear-gradient(145deg, #ec4899, #db2777); 
+      color: white; 
+      border: none; 
+      padding: clamp(12px, 2.5vh, 14px) clamp(24px, 5vw, 32px); 
+      font-size: clamp(0.85rem, 2.5vw, 1rem); 
+      font-weight: 700; 
+      border-radius: 40px; 
+      cursor: pointer; 
+      box-shadow: 0 8px 25px rgba(236, 72, 153, 0.4); 
+      display: inline-flex; 
+      align-items: center; 
+      gap: 8px; 
+      transition: all 0.15s;
+      touch-action: manipulation;
+    }
     .splash-btn:active { transform: scale(0.94); }
     
-    .screenshot-footer { margin-top: 30px; font-size: 0.7rem; color: #f9a8d4; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; border-top: 1px dashed rgba(255, 255, 255, 0.08); padding-top: 18px; opacity: 0.7; }
+    .screenshot-footer { 
+      margin-top: clamp(20px, 4vh, 30px); 
+      font-size: clamp(0.6rem, 1.8vw, 0.7rem); 
+      color: #f9a8d4; 
+      font-weight: 600; 
+      text-transform: uppercase; 
+      letter-spacing: 2px; 
+      border-top: 1px dashed rgba(255, 255, 255, 0.08); 
+      padding-top: clamp(14px, 2.5vh, 18px); 
+      opacity: 0.7; 
+    }
 
-    .age-badge { display: inline-block; background: rgba(244, 114, 182, 0.15); padding: 4px 16px; border-radius: 30px; font-size: 0.9rem; color: #f9a8d4; border: 1px solid rgba(244, 114, 182, 0.2); margin-bottom: 12px; backdrop-filter: blur(4px); }
+    .age-badge { 
+      display: inline-block; 
+      background: rgba(244, 114, 182, 0.15); 
+      padding: 4px 16px; 
+      border-radius: 30px; 
+      font-size: clamp(0.8rem, 2.2vw, 0.9rem); 
+      color: #f9a8d4; 
+      border: 1px solid rgba(244, 114, 182, 0.2); 
+      margin-bottom: clamp(10px, 2vh, 12px); 
+      backdrop-filter: blur(4px); 
+    }
+
+    /* Disable double-tap zoom */
+    button, .gift-emoji {
+      touch-action: manipulation;
+    }
   </style>
 </head>
 <body>
@@ -94,7 +274,7 @@
           <span style="display:inline-block; margin-top:8px; font-size:0.9rem; color:#f9a8d4;">(5 August 2010 — born to shine ✨)</span>
         </p>
       </div>
-      <div class="from-tag">From: ..... </div>
+      <div class="from-tag">From: .....️</div>
       <button class="splash-btn" onclick="fireMoreConfetti()">💫 Splash More Fluid 💫</button>
       <div class="screenshot-footer">
         🎀 if surprise opens, send a screenshot 🎀
@@ -233,6 +413,42 @@
         bgAnimate();
       }
     })();
+
+    // Anti-zoom: prevent double-tap zoom and pinch zoom
+    document.addEventListener('gesturestart', function(e) {
+      e.preventDefault();
+    });
+
+    document.addEventListener('touchmove', function(e) {
+      if (e.target.closest('.quiz-container')) {
+        // Allow scrolling within card if needed, but prevent zoom
+        if (e.target.closest('.quiz-container') && !e.target.closest('.shayari-box')) {
+          // Only prevent if not scrolling content
+        }
+      }
+    }, { passive: false });
+
+    // Prevent context menu on long press
+    document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+    });
+
+    // Prevent double-tap zoom on mobile
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function(e) {
+      const now = Date.now();
+      if (now - lastTouchEnd <= 300) {
+        e.preventDefault();
+      }
+      lastTouchEnd = now;
+    }, { passive: false });
+
+    // Ensure canvas and body don't scroll
+    window.addEventListener('scroll', function(e) {
+      window.scrollTo(0, 0);
+    });
+
+    // Prevent keyboard zoom (if any input existed, but none)
   </script>
 </body>
 </html>
