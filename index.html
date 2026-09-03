@@ -1168,7 +1168,7 @@ let state = {
   labour: [],
   buyers: [],
   payments: [],
-  currentRate: 45,
+  currentRate: 35,
   // Modal states
   showModal: null, // 'cow','milk','expense','labour','buyer','payment','editRate','confirm'
   editingItem: null,
@@ -1197,7 +1197,7 @@ function loadFarmerData(farmerId) {
   state.labour = load('labour', []);
   state.buyers = load('buyers', []);
   state.payments = load('payments', []);
-  state.currentRate = load('milkRate', 45);
+  state.currentRate = load('milkRate', 35);
 }
 
 // ===== DASHBOARD STATS =====
